@@ -4,4 +4,4 @@ Done 1st Problem Set Theory Exercises-remaining to do coding exercise
 P2-Not still done  
 P3-Not still done  
 p4-Not Still done  
-Lecture currently seeing 6 (out of 22).  
+Lecture currently seeing 7 (out of 22).  
