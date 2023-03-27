@@ -1,0 +1,119 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+%\usepackage{hyperref}
+\usepackage[a4paper,margin=1.2in,footskip=0.25in]{geometry}
+\usepackage{mathptmx}
+\usepackage{amsmath}
+\usepackage{mathtools}
+\usepackage{epigraph}
+%\usepackage{esvect}
+
+\title{CS229 PS1}
+\author{Aryan Sood}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\section{Linear Classifier}
+\subsection{(a)}
+    
+\begin{equation}
+    \\J(\theta) = -\frac{1}{m}\sum\limits_{i = 1}^{m} y^{(i)} log(h_{\theta}(x^{(i)}))+(1-y{(i)})log(1-h_{\theta}(x^{(i)}))
+    \\
+\end{equation}
+
+\begin{equation*}
+    \frac{\partial J}{\partial \theta_{j}} = -\frac{1}{m}\sum\limits_{i=1}^{m}(x_{j}^{(i)}y^{(i)}\frac{e^{-\theta^{T}x^{(i)}}}{1+e^{-\theta^{T}x^{(i)}}}-x_{j}^{(i)}(1-y^{(i)})\frac{1}{1+e^{-\theta^{T}x^{(i)}}})
+\end{equation*}
+\begin{equation}
+    \frac{\partial J}{\partial \theta_{j}} = -\frac{1}{m}\sum\limits_{i=1}^{m}(x_{j}^{(i)}y^{(i)}-x_{j}^{(i)}h_{\theta}(x^{(i)}))
+\end{equation}
+Now we take the derivative of (2) respect to $\theta_{l}$ :
+\begin{equation}
+    \frac{\partial J}{\partial \theta_{j}\partial \theta_{l}} =\frac{\partial}{\partial\theta_{l}} (-\frac{1}{m}\sum\limits_{i=1}^{m}(x_{j}^{(i)}y^{(i)}-x_{j}^{(i)}h_{\theta}(x^{(i)})))
+\end{equation}
+\begin{equation}
+    \frac{\partial J}{\partial \theta_{j}\partial \theta_{l}} =\frac{1}{m}\sum\limits_{i=1}^{m}(x_{j}^{(i)}\frac{\partial}{\partial\theta_{l}}h_{\theta}(x^{(i)}))
+\end{equation}
+\begin{equation}
+    \frac{\partial J}{\partial \theta_{j}\partial \theta_{l}} =\frac{1}{m}\sum\limits_{i=1}^{m}h_{\theta}(x^{(i)})(1-h_{\theta}(x^{(i)})x_{j}^{(i)}x_{l}^{(i)}
+\end{equation}
+Now the Hessian is the matrix whose j-l entry is (5), now we will show that $z^{T}Hz \geq 0$, we put $C_{i} = h_{\theta}(x^{(i)})(1-h_{\theta}(x^{(i)})$ and we have $C_{i}\geq 0$, we see than that$z^{T}Hz$ is equal to:
+\begin{equation}
+    \sum\limits_{j=1}^{n}\sum\limits_{l=0}^{n}(\frac{1}{m}\sum\limits_{i=1}^{m}C_{i}x_{j}^{(i)}x_{l}^{(i)})z_{j}z_{l}
+\end{equation}
+
+\begin{equation}
+    \sum\limits_{i=1}^{m}\frac{1}{m}C_{i}\sum\limits_{j=1}^{n}\sum\limits_{l=1}^{n}x_{j}^{(i)}x_{l}^{(i)}z_{j}z_{l}
+\end{equation}
+\begin{equation}
+    \sum\limits_{i=1}^{m}\frac{1}{m}C_{i}\sum\limits_{j=1}^{n}x_{j}^{(i)}z_{j}\sum\limits_{l=1}^{n}x_{l}^{(i)}z_{l}
+\end{equation}
+\begin{equation}
+    \sum\limits_{i=1}^{m}\frac{1}{m}C_{i}(\sum\limits_{j=1}^{n}x_{j}^{(i)}z_{j})^{2} \geq 0
+\end{equation}
+\subsection{(b)}
+\begin{equation*}
+    p(y = 1|x;\phi;\mu_{0};\mu_{1};\Sigma) = \frac{p(x|y=1;\phi;\mu_{0};\mu_{1};\Sigma)p(y=1)}{p(x|y=1;\phi;\mu_{0};\mu_{1};\Sigma)p(y=1)+p(x|y=0;\phi;\mu_{0};\mu_{1};\Sigma)p(y=0)}
+\end{equation*}
+\begin{equation}
+      p(y = 1|x;\phi;\mu_{0};\mu_{1};\Sigma) = \frac{1}{\frac{p(x|y=0;\phi;\mu_{0};\mu_{1};\Sigma)p(y=0)}{p(x|y=1;\phi;\mu_{0};\mu_{1};\Sigma)p(y=1)}+1}
+\end{equation}
+Now we substitute the various formulas for the probability of x given y:
+\begin{equation}
+   p(y = 1|x;\phi;\mu_{0};\mu_{1};\Sigma)= 
+   \frac{1}{\frac{1-\phi}{\phi}exp(\frac{1}{2}(x-\mu_{1})^{T}\Sigma(x-\mu_{1})-\frac{1}{2}(x-\mu_{0})^{T}\Sigma(x-\mu_{0}))+1}
+\end{equation}
+We know focus on the exp:
+\begin{equation}
+    (x-\mu_{1})^{T}\Sigma(x-\mu_{1})-(x-\mu_{0})^{T}\Sigma(x-\mu_{0})
+\end{equation}
+\begin{equation*}
+    x^{T}\Sigma x-\mu_{1}^{T}\Sigma x-x^{T}\Sigma\mu_{1}+\mu_{1}^{T}\Sigma\mu_{1}-x^{T}\Sigma x+\mu_{0}^{T}\Sigma x+x^{T}\Sigma\mu_{0}-\mu_{0}^{T}\Sigma\mu_{0}
+\end{equation*}
+\begin{equation*}
+    -\mu_{1}^{T}\Sigma x-\mu_{1}^{T}\Sigma^{T}x+\mu_{1}^{T}\Sigma\mu_{1}+\mu_{0}^{T}\Sigma x+\mu_{0}^{T}\Sigma^{T}x-\mu_{0}^{T}\Sigma\mu_{0}
+\end{equation*}
+\begin{equation*}
+    (\mu_{1}^{T}-\mu_{0}^{T})(\Sigma+\Sigma^T)x+cost
+\end{equation*}
+Now we can consider $\frac{1-\phi}{phi}$ as $e^{a}$, so overall we have:
+\begin{equation*}
+    \frac{1}{2}(\mu_{1}^{T}-\mu_{0}^{T})(\Sigma+\Sigma^T)x+\frac{1}{2}cost+a
+\end{equation*}
+\begin{equation}
+    \theta^{T}x
+\end{equation}
+\section{ Incomplete, Positive-Only Labels}
+\subsection{(a)}
+\begin{gather*}
+    P(y^{i}=1|x^{i}) = 
+    \\
+    P(y^{i}=1|x^{i},t^{(i)}=1)\cdot P(t^{(i)}=1|x^{(i)})+
+    P(y^{i}=1|x^{i},t^{(i)=0})\cdot P(t^{(i)}=0|x^{(i)}) = 
+    \\
+    P(y^{i}=1|x^{i},t^{(i)}=1)\cdot P(t^{(i)}=1|x^{(i)})=\\
+    P(y^{i}=1|,t^{(i)}=1)\cdot P(t^{(i)}=1|x^{(i)})
+\end{gather*}
+because the positive labels are chosen uniformly we have:
+\begin{equation}
+    P(y^{i}=1|x^{i}) = \alpha \cdot P(t^{(i)}=1|x^{(i)})
+\end{equation}
+point b follows directly from point a.
+\section{Poisson Regression}
+\subsection{a}
+\begin{gather}
+    \frac{exp(ln(e^{-\lambda}\lambda^y))}{y!}=
+    \frac{exp(y\cdot ln(\lambda)-\lambda)}{y!}\\
+    n = ln(\lambda)\\
+    lambda = e^{n}\\
+    \frac{exp(y\cdot n - e^{n})}{y!}\\
+    E_{poisson} = \lambda\\
+    E[y;x,\theta] = e^n = e^{\theta^Tx}
+\end{gather}
+We now find use maximum likelihood:
+
+\end{document}
