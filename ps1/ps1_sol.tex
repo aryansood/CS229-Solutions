@@ -115,5 +115,78 @@ point b follows directly from point a.
     E[y;x,\theta] = e^n = e^{\theta^Tx}
 \end{gather}
 We now find use maximum likelihood:
-
+\begin{gather*}
+   L(\theta) = \prod_{i = 1}^{n}\frac{e^{\theta^{t}x^{i}y^{i}-e^{\theta^{T}x^{i}}}}{y!} \\
+    J(\theta)= log(J(\theta)) = \sum_{i = 1}^{m}-log(y!)+\sum_{i=0}^{m}(\theta^{T}x^{i}y^{i}-e^{\theta^{T}x})\\
+    \frac{\partial J}{\partial \theta_{l}} = \sum_{i = 1}^{m}(x^{i}_{l}y^{i}-x^{i}_{l}e^{\theta^Tx^{i}})
+\end{gather*}
+Stochastic gradient descent:
+\begin{gather*}
+\theta_l := \theta_l+\alpha x^{i}_{l} (y^{i}-e^{\theta^{T}x^{i}})
+\end{gather*}
+\section{Convexity of Generalized Linear Models}
+\subsection{a}
+\begin{gather*}
+    P(y;\eta) = b(y)*e^{(\eta y-a(\eta))}\\
+    \int_{-\infty}^{+\infty}b(y)*e^{(\eta y-a(\eta))}dy = 1\\
+    \frac{\partial}{\partial\eta}\int_{-\infty}^{+\infty}b(y)*e^{(\eta y-a(\eta))}dy = 0\\
+    \int_{-\infty}^{+\infty}b(y)(y-\frac{\partial}{\partial \eta}a(\eta))e^{(\eta y-a(\eta))}dy = 0\\
+    \int_{-\infty}^{+\infty}b(y)(y)e^{(\eta y-a(\eta))}dy-\frac{\partial}{\partial \eta}a(\eta) = 0\\
+    E[y;\eta] = \frac{\partial}{\partial \eta}a(\eta)
+\end{gather*}
+\subsection{b}
+for the variance we start with:
+\begin{gather}
+    \frac{\partial}{\partial\eta}\int_{-\infty}^{+\infty}b(y)ye^{(\eta y-a(\eta))}dy = \frac{\partial}{\partial eta}(E[y;\eta])
+\end{gather}
+and we arrive at the conclusion in the same way.
+\subsection{c}
+the negative loss function is:
+\begin{gather*}
+    l(\eta)= -[\sum_{i=1}^{m}(b(y^{i})+(\eta y^{i}-a(\eta)))]\\
+    l(\theta)-[\sum_{i=1}^{m}(b(y^{i})+(\theta^{T}x^{i} y^{i}-a(\theta^{T}x^{i})))]
+    \frac{\partial }{\partial \theta_k}l(\theta) = -\sum_{i=1}^{m}(x^{i}_{k} y^{i}-\frac{\partial }{\partial \eta}a(\eta)x^{i}_{k})\\
+    \frac{\partial^{2} }{\partial \theta_k \partial \theta_j}l(\theta) = \sum_{i=1}^{m}(\frac{\partial^{2} }{\partial \eta^{2}}a(\eta)x^{i}_{k}x^{i}_j)
+\end{gather*}
+$\frac{\partial^{2} }{\partial \eta^{2}}a(\eta)$ is always positive because is it equal to the variance. Thus by the same reasoning and manipulation of exercise 1, we obtain that the Hessian is semidefinite positive
+\section{Locally weighted linear regression}
+\subsection{i}
+\begin{gather}
+    J(\theta) = \frac{1}{2}\sum_{i = 1}^{n} w^{i}(\theta^{T}x^{i}-y^{i})^2\\
+    \sum_{i = 1}^{n} (\theta^{T}x^{i}-y^{i})\frac{1}{2}w^{i}(\theta^{T}x^{i}-y^{i})\\
+    X = 
+    \begin{bmatrix}
+        x_{1}^{1} && x_{2}^{1} && \cdot && \cdot &&  x_{n}^{1}\\
+        x_{1}^{2} && x_{2}^{2} && \cdot && \cdot &&  x_{n}^{2} \\
+        \cdot     && \cdot     && \cdot && \cdot &&  \cdot      \\
+        \cdot     && \cdot     && \cdot && \cdot &&  \cdot      \\
+        x_{1}^{m} && x_{2}^{m} && \cdot && \cdot &&  x_{n}^{m}
+    \end{bmatrix}
+    \\
+    2\cdot W = 
+    \begin{bmatrix}
+        w^{1} && 0 && \cdot && \cdot &&  0\\
+        0 && w^{2} && \cdot && \cdot &&  0 \\
+        0 && 0 && w^{3} && \cdot &&  0 \\
+        \cdot     && \cdot     && \cdot && \cdot &&  \cdot\\
+        \cdot     && \cdot     && \cdot && \cdot &&  \cdot\\
+        0 && 0 && \cdot && \cdot &&  w^{m}
+    \end{bmatrix}
+    \\
+    (X\theta-Y)^T W (X\theta-Y)
+\end{gather}
+\subsection{ii}
+\begin{gather}
+    \frac{\partial J(\theta)}{\partial \theta_j} = 
+    \sum_{i=1}^{m} w^{i}x^(i)_{j}(\theta^Tx^{i}-y^{i})
+    \\
+    X^T2W(X\theta-Y) = 0\\
+    \theta = (X^T2WX)^{-1}X^TY
+\end{gather}
+\subsection{iii}
+\begin{gather}
+\sum_{i = 1}^{m} log(P(y^{i};x^{i},\theta)) = \sum_{i = 1}^{m}
+log(\frac{1}{\sqrt{2\pi}\sigma^{i}})-\sum_{i = 1}^{m}\frac{1}{2(\sigma^{i})^2}
+(y^{i}-\theta^Tx^{i})^2
+\end{gather}
 \end{document}
