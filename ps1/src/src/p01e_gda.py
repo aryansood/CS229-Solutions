@@ -3,9 +3,10 @@ import util
 
 from linear_model import LinearModel
 
-train_path = "/home/aryan/Desktop/CS229/PS1/data/ds1_train.csv"
-eval_path = "/home/aryan/Desktop/CS229/PS1/data/ds1_valid.csv"
-pred_path = "/home/aryan/Desktop/CS229/PS1/data/ds1_pred.csv"
+train_path = "/home/aryan/Desktop/CS229-Solutions/ps1/data/ds1_train.csv"
+eval_path = "/home/aryan/Desktop/CS229-Solutions/ps1/data/ds1_valid.csv"
+pred_path = "/home/aryan/Desktop/CS229-Solutions/ps1/data/ds1_pred.csv"
+
 
 def main(train_path, eval_path, pred_path):
     """Problem 1(e): Gaussian discriminant analysis (GDA)

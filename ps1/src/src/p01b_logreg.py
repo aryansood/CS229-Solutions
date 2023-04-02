@@ -3,9 +3,9 @@ import util
 import math
 from linear_model import LinearModel
 
-train_path = "/home/aryan/Desktop/CS229/PS1/data/ds1_train.csv"
-eval_path = "/home/aryan/Desktop/CS229/PS1/data/ds1_valid.csv"
-pred_path = "/home/aryan/Desktop/CS229/PS1/data/ds1_pred.csv"
+train_path = "/home/aryan/Desktop/CS229-Solutions/ps1/data/ds1_train.csv"
+eval_path = "/home/aryan/Desktop/CS229-Solutions/ps1/data/ds1_valid.csv"
+pred_path = "/home/aryan/Desktop/CS229-Solutions/ps1/data/ds1_pred.csv"
 def main(train_path, eval_path, pred_path):
     x_train, y_train = util.load_dataset(train_path, add_intercept=True)
     clf = LogisticRegression()
@@ -13,7 +13,7 @@ def main(train_path, eval_path, pred_path):
     x_eval, y_eval = util.load_dataset(eval_path, add_intercept=True)
     y_pred = clf.predict(x_eval, theta)
     #print(y_pred)
-    util.plot(x_train,y_train,theta)
+    #util.plot(x_train,y_train,theta)
 
 
 class LogisticRegression(LinearModel):
